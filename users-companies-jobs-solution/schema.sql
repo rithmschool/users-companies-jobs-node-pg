@@ -1,4 +1,4 @@
-DROP DATABASE "users-companies-jobs-solution";
+DROP DATABASE IF EXISTS  "users-companies-jobs-solution";
 CREATE DATABASE "users-companies-jobs-solution";
 \c "users-companies-jobs-solution"
 CREATE TABLE companies (
