@@ -1,43 +1,46 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const db = require("../db");
+const db = require('../db');
 
-router.get("/", async function(req, res, next) {
+router.get('/', async function(req, res, next) {
   try {
-    const results = await db.query("SELECT * FROM users");
-    return res.json(results.rows);
+    const results = await db.query('SELECT * FROM users');
+    const users = results.rows;
+    return res.json(users);
   } catch (err) {
     return next(err);
   }
 });
 
-router.get("/:id", async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
   try {
-    const results = await db.query("SELECT * FROM users WHERE id=$1", [
+    const results = await db.query('SELECT * FROM users WHERE id=$1', [
       req.params.id
     ]);
-    return res.json(results.rows[0]);
+    const user = results.rows[0];
+    return res.json(user);
   } catch (err) {
     return next(err);
   }
 });
 
-router.post("/", async function(req, res, next) {
+router.post('/', async function(req, res, next) {
   try {
     const result = await db.query(
-      "INSERT INTO users (first_name,last_name,email,photo) VALUES ($1,$2,$3,$4) RETURNING *",
+      'INSERT INTO users (first_name,last_name,email,photo) VALUES ($1,$2,$3,$4) RETURNING *',
       [req.body.firstName, req.body.lastName, req.body.email, req.body.photo]
     );
-    return res.json(result.rows[0]);
+    const newUser = result.rows[0];
+    return res.json(newUser);
   } catch (err) {
     return next(err);
   }
 });
 
-router.patch("/:id", async function(req, res, next) {
+router.patch('/:id', async function(req, res, next) {
   try {
     const result = await db.query(
-      "UPDATE users SET first_name=($1), last_name=($2), email=($3), photo=($4) WHERE id=($5) RETURNING *",
+      'UPDATE users SET first_name=($1), last_name=($2), email=($3), photo=($4) WHERE id=($5) RETURNING *',
       [
         req.body.firstName,
         req.body.lastName,
@@ -46,18 +49,20 @@ router.patch("/:id", async function(req, res, next) {
         req.params.id
       ]
     );
-    return res.json(result.rows[0]);
+    const updatedUser = result.rows[0];
+    return res.json(updatedUser);
   } catch (err) {
     return next(err);
   }
 });
 
-router.delete("/:id", async function(req, res, next) {
+router.delete('/:id', async function(req, res, next) {
   try {
-    const result = await db.query("DELETE FROM users WHERE id=$1", [
+    const result = await db.query('DELETE FROM users WHERE id=$1', [
       req.params.id
     ]);
-    return res.json({ message: "Deleted" });
+    const deletedUser = result.rows[0];
+    return res.json(deletedUser);
   } catch (err) {
     return next(err);
   }
