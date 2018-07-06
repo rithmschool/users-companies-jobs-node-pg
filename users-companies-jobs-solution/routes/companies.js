@@ -22,7 +22,7 @@ router.get('/:id', async function(req, res, next) {
     const jobs = await db.query('SELECT * FROM jobs WHERE company_id=$1', [
       req.params.id
     ]);
-    companies.rows[0].employees = users.rows;
+    companies.rows[0].users = users.rows;
     companies.rows[0].jobs = jobs.rows;
     return res.json(companies.rows[0]);
   } catch (err) {

@@ -22,7 +22,7 @@ router.get('/:id', async function(req, res, next) {
     ]);
 
     const company = results.rows[0];
-    company.employees = users.rows;
+    company.users = users.rows;
     return res.json(company);
   } catch (err) {
     return next(err);

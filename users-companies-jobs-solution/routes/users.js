@@ -22,7 +22,7 @@ router.get('/:id', async function(req, res, next) {
       [req.params.id]
     );
     const user = results.rows[0];
-    user.applied = jobs.rows;
+    user.users = jobs.rows;
     return res.json(user);
   } catch (err) {
     return next(err);

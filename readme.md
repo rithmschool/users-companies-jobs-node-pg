@@ -18,8 +18,8 @@
     "last_name": "Hueter",
     "email": "michael@rithmschool.com",
     "photo": "https://avatars0.githubusercontent.com/u/13444851?s=460&v=4",
-    "current_company_id": 1, // ONE-TO-ONE with Companies --> THIS IS IMPLEMENTED IN THE NEXT SECTION
-    "applied_to": [2, 3] // MANY-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
+    "company_id": 1, // MANY-TO-ONE with Companies --> THIS IS IMPLEMENTED IN THE NEXT SECTION
+    "jobs": [2, 3] // MANY-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
   }
   ```
 
@@ -56,7 +56,7 @@ Create a table for `companies`, each company should have a:
   - `PATCH /companies/:id` - this should update an existing company and return the updated company
   - `DELETE /companies/:id` - this should remove an existing company and return the deleted company
 
-- When the API returns the companies, it should include all of the ids the company is associated with under an `employees` key.
+- When the API returns the companies, it should include all of the ids of users who work there.
 
 - Here is what a company object looks like:
 
@@ -66,8 +66,8 @@ Create a table for `companies`, each company should have a:
     "name": "Rithm School",
     "logo":
       "https://avatars3.githubusercontent.com/u/2553776?s=400&u=18c328dafb508c5189bda56889b03b8b722d5f22&v=4",
-    "employees": [1, 2], // MANY-TO-ONE with Users
-    "jobs": [2, 3] // ONE-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
+    "users": [1, 2], // array of user IDs who work there. ONE-TO-MANY with Users
+    "jobs": [2, 3] // array of job IDs listed by the company. ONE-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
   }
   ```
 
@@ -84,7 +84,7 @@ Create a table for `companies`, each company should have a:
 
 - `jobs` has a one to many relationship with `companies` which means there is a foreign key in the jobs table that references the companies table. In this relationship, one company has many jobs, and each job belongs to a single company. Make sure then when a company is deleted, all of the jobs associated with that company are deleted also.
 
-- `jobs` is also a many to many relationship with `users`, because a user can apply to many jobs. This means you'll also have to create a join table for these two associations. You can call that table `jobs_users` and it should contain a `job_id` and `user_id`. On the user response objects, you'll add a key called `applied` that lists the job IDs that a user has applied to.
+- `jobs` is also a many to many relationship with `users`, because a user can apply to many jobs. This means you'll also have to create a join table for these two associations. You can call that table `jobs_users` and it should contain a `job_id` and `user_id`.
 
 - Make sure your application has the following routes:
 
@@ -98,12 +98,10 @@ Create a table for `companies`, each company should have a:
 
   ```js
   {
-    "data": {
       "title": "Software Engineer",
       "salary": "100000",
       "equity": 4.5,
       "company_id": 1
-    }
   }
   ```
 
