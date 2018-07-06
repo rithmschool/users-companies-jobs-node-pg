@@ -104,7 +104,7 @@ Create a table for `companies`, each company should have a:
   {
     "data": {
       "title": "Software Engineer",
-      "salary": 100000,
+      "salary": "100000",
       "equity": 4.5,
       "company_id": 1
     }
