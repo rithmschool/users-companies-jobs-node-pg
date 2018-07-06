@@ -11,7 +11,7 @@
 
 - Here is what a user object looks like:
 
-  ```json
+  ```js
   {
     "data": {
       "id": 1,
@@ -62,7 +62,7 @@ Create a table for `companies`, each company should have a:
 
 - Here is what a company object looks like:
 
-  ```json
+  ```js
   {
     "data": {
       "id": 1,
@@ -100,7 +100,7 @@ Create a table for `companies`, each company should have a:
 
 - Here is what a job object looks like:
 
-  ```json
+  ```js
   {
     "data": {
       "title": "Software Engineer",
