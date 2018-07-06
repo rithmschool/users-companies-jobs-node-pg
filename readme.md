@@ -12,17 +12,15 @@
 - Here is what a user object looks like:
 
   ```js
-  {
-    "data": {
-      "id": 1,
-      "first_name": "Michael",
-      "last_name": "Hueter",
-      "email": "michael@rithmschool.com",
-      "photo": "https://avatars0.githubusercontent.com/u/13444851?s=460&v=4",
-      "current_company_id": 1, // ONE-TO-ONE with Companies --> THIS IS IMPLEMENTED IN THE NEXT SECTION
-      "applied_to": [2, 3] // MANY-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
-    }
-  }
+{
+  "id": 1,
+  "first_name": "Michael",
+  "last_name": "Hueter",
+  "email": "michael@rithmschool.com",
+  "photo": "https://avatars0.githubusercontent.com/u/13444851?s=460&v=4",
+  "current_company_id": 1, // ONE-TO-ONE with Companies --> THIS IS IMPLEMENTED IN THE NEXT SECTION
+  "applied_to": [2, 3] // MANY-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
+}
   ```
 
 - Create an API that has the following five routes:
@@ -63,16 +61,14 @@ Create a table for `companies`, each company should have a:
 - Here is what a company object looks like:
 
   ```js
-  {
-    "data": {
-      "id": 1,
-      "name": "Rithm School",
-      "logo":
-        "https://avatars3.githubusercontent.com/u/2553776?s=400&u=18c328dafb508c5189bda56889b03b8b722d5f22&v=4",
-      "employees": [1, 2], // MANY-TO-ONE with Users
-      "jobs": [2, 3] // ONE-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
-    }
-  }
+{
+  "id": 1,
+  "name": "Rithm School",
+  "logo":
+    "https://avatars3.githubusercontent.com/u/2553776?s=400&u=18c328dafb508c5189bda56889b03b8b722d5f22&v=4",
+  "employees": [1, 2], // MANY-TO-ONE with Users
+  "jobs": [2, 3] // ONE-TO-MANY with Jobs --> THIS IS IMPLEMENTED IN THE FINAL SECTION
+}
   ```
 
 ## Part III - Jobs
