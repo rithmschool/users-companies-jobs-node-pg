@@ -52,11 +52,9 @@ Create a table for `companies`, each company should have a:
 
   - `POST /companies` - this should create a new company
   - `GET /companies` - this should return a list of all the company objects
-  - `GET /companies/:id` - this should return a single company found by its id
+  - `GET /companies/:id` - this should return a single company found by its id and it should include all of the ids of users who work there
   - `PATCH /companies/:id` - this should update an existing company and return the updated company
   - `DELETE /companies/:id` - this should remove an existing company and return the deleted company
-
-- When the API returns the companies, it should include all of the ids of users who work there.
 
 - Here is what a company object looks like:
 
