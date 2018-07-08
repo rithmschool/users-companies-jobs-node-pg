@@ -111,9 +111,9 @@ Create a table for `companies`, each company should have a:
 
 - Add a column in the `users` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
 
-- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
-
 - Add a column in the `companies` table called `handle`. This column should have a type of `text` and should be unique and never be null.
+
+- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a company is created and updated, the password is stored securely.
 
 - Make sure your application has the following routes:
 
