@@ -86,7 +86,7 @@ Create a table for `companies`, each company should have a:
 
 - Make sure your application has the following routes:
 
-`POST /jobs` - this route creats a new job
+`POST /jobs` - this route creates a new job
 `GET /jobs` - this route should list all of the jobs.
 `GET /jobs/:id` - this route should show information about a specific job
 `PATCH /jobs/:id` - this route should let you update a job by its ID
@@ -102,6 +102,58 @@ Create a table for `companies`, each company should have a:
       "company_id": 1
   }
   ```
+
+## Part IV - Authentication + Authorization
+
+**Before you continue, make sure you have completed at least Part I and Part II of this exercise**
+
+- Add a column in the `users` table called `username`. This column should have a type of `text` and should be unique and never be null.
+
+- Add a column in the `users` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
+
+- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
+
+- Add a column in the `companies` table called `username`. This column should have a type of `text` and should be unique and never be null.
+
+- Make sure your application has the following routes:
+
+	- `POST /users/auth` - this route accepts a username and password and returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
+	- `POST /companies/auth` - this route accepts a username and password and returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in company.
+
+- Protect the following routes and make sure only a user who has logged in can see them:
+
+	- `GET /jobs` - this route should list all of the jobs.
+	- `GET /jobs/:id` - this route should show information about a specific job
+	- `GET /companies` - this should return a list of all the company objects
+	- `GET /companies/:id` - this should return a list of all the company objects
+
+- Protect the following routes and make sure they are only accessible by the user with the correct id.
+
+	- `GET /users/:id` - this should return a single user found by its `id`
+	- `PATCH /users/:id` - this should update an existing user and return the updated user
+	- `DELETE /users/:id` - this should remove an existing user and return the deleted user
+
+- Protect the following routes and make sure they are only accessible by the company with the correct id.
+
+	- `PATCH /companies/:id` - this should update an existing company and return the updated company
+	- `DELETE /companies/:id` - this should remove an existing company and return the deleted company
+	- `POST /jobs` - this route creates a new job
+	- `PATCH /jobs/:id` - this route should let you update a job by its ID
+	- `DELETE /jobs/:id` - this route lets you delete a job posting
+
+- Add a column to the `users` table called `is_admin` which is a boolean that defaults to `false`. If the value of `is_admin` is true, the following routes should be accessible:
+
+	- `POST /companies` - this should create a new company
+	- `GET /users` - this should return a list of all the user objects
+
+## Part V - Testing + Validation
+
+**Before you continue, make sure you have completed at least Part I and Part II of this exercise**
+
+- Make sure that there is validation each time a `user` is created or updated.
+- Make sure that there is validation each time a `company` is created or updated.
+- Make sure that there is validation each time a `job` is created or updated.
+- Add tests for your `users`, `companies`, and `jobs` route.
 
 ### Solutions
 
