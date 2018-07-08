@@ -86,11 +86,11 @@ Create a table for `companies`, each company should have a:
 
 - Make sure your application has the following routes:
 
-`POST /jobs` - this route creates a new job
-`GET /jobs` - this route should list all of the jobs.
-`GET /jobs/:id` - this route should show information about a specific job
-`PATCH /jobs/:id` - this route should let you update a job by its ID
-`DELETE /jobs/:id` - this route lets you delete a job posting
+  - `POST /jobs` - this route creates a new job
+  - `GET /jobs` - this route should list all of the jobs.
+  - `GET /jobs/:id` - this route should show information about a specific job
+  - `PATCH /jobs/:id` - this route should let you update a job by its ID
+  - `DELETE /jobs/:id` - this route lets you delete a job posting
 
 - Here is what a job object looks like:
 
@@ -117,34 +117,34 @@ Create a table for `companies`, each company should have a:
 
 - Make sure your application has the following routes:
 
-      - `POST /users/auth` - this route accepts a username and password and returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
-      - `POST /companies/auth` - this route accepts a username and password and returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
+  - `POST /users/auth` - this route accepts a username and password and returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
+  - `POST /companies/auth` - this route accepts a username and password and returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
 
 - Protect the following routes and make sure only a user who has logged in can see them:
 
-      - `GET /jobs` - this route should list all of the jobs.
-      - `GET /jobs/:id` - this route should show information about a specific job
-      - `GET /companies` - this should return a list of all the company objects
-      - `GET /companies/:id` - this should return a list of all the company objects
-      - `POST /companies` - this should create a new company
+  - `GET /jobs` - this route should list all of the jobs.
+  - `GET /jobs/:id` - this route should show information about a specific job
+  - `GET /companies` - this should return a list of all the company objects
+  - `GET /companies/:id` - this should return a list of all the company objects
+  - `POST /companies` - this should create a new company
 
 - Protect the following routes and make sure they are only accessible by the user with the correct id.
 
-      - `GET /users/:id` - this should return a single user found by its `id`
-      - `PATCH /users/:id` - this should update an existing user and return the updated user
-      - `DELETE /users/:id` - this should remove an existing user and return the deleted user
+  - `GET /users/:id` - this should return a single user found by its `id`
+  - `PATCH /users/:id` - this should update an existing user and return the updated user
+  - `DELETE /users/:id` - this should remove an existing user and return the deleted user
 
 - Protect the following routes and make sure they are only accessible by the company with the correct id.
 
-      - `PATCH /companies/:id` - this should update an existing company and return the updated company
-      - `DELETE /companies/:id` - this should remove an existing company and return the deleted company
-      - `POST /jobs` - this route creates a new job
-      - `PATCH /jobs/:id` - this route should let you update a job by its ID
-      - `DELETE /jobs/:id` - this route lets you delete a job posting
+  - `PATCH /companies/:id` - this should update an existing company and return the updated company
+  - `DELETE /companies/:id` - this should remove an existing company and return the deleted company
+  - `POST /jobs` - this route creates a new job
+  - `PATCH /jobs/:id` - this route should let you update a job by its ID
+  - `DELETE /jobs/:id` - this route lets you delete a job posting
 
 * **BONUS** - Add a column to the `users` table called `is_admin` which is a boolean that defaults to `false`. If the value of `is_admin` is true, the following routes should be accessible:
 
-      - `GET /users` - this should return a list of all the user objects
+  - `GET /users` - this should return a list of all the user objects
 
 ## Part V - Testing + Validation
 
