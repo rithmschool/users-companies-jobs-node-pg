@@ -86,11 +86,11 @@ Create a table for `companies`, each company should have a:
 
 - Make sure your application has the following routes:
 
-`POST /jobs` - this route creats a new job
-`GET /jobs` - this route should list all of the jobs.
-`GET /jobs/:id` - this route should show information about a specific job
-`PATCH /jobs/:id` - this route should let you update a job by its ID
-`DELETE /jobs/:id` - this route lets you delete a job posting
+  - `POST /jobs` - this route creates a new job
+  - `GET /jobs` - this route should list all of the jobs.
+  - `GET /jobs/:id` - this route should show information about a specific job
+  - `PATCH /jobs/:id` - this route should let you update a job by its ID
+  - `DELETE /jobs/:id` - this route lets you delete a job posting
 
 - Here is what a job object looks like:
 
@@ -103,7 +103,74 @@ Create a table for `companies`, each company should have a:
   }
   ```
 
-### Solutions
+---
+
+## Part IV - User Authentication + Authorization
+
+**Before you continue, make sure you have completed at least Part I and Part II above**
+
+- Add a column in the `users` table called `username`. This column should have a type of `text` and should be unique and never be null.
+
+- Add a column in the `users` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
+
+- Add a new route `/users/auth`. This route accepts a POST request with a username and password, and it returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
+
+- Protect the following routes and make sure only a user who has logged in can use them:
+
+  - `GET /users`
+  - `GET /users/:id`
+  - `GET /jobs`
+  - `GET /jobs/:id`
+  - `GET /companies`
+  - `GET /companies/:id`
+
+- Protect the following routes and make sure they are only accessible by the user with the correct id.
+
+  - `PATCH /users/:id`
+  - `DELETE /users/:id`
+
+## Part V - Company Auth
+
+- Add a column in the `companies` table called `handle`. This column should have a type of `text` and should be unique and never be null.
+
+- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a company is created and updated, the password is stored securely.
+
+- Add a new route `/companies/auth`. This route accepts a POST request with a company's `handle` and `password`, and it returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
+
+- Allow logged in companies to see the following routes (these are all the routes logged in users can see):
+
+  - `GET /users`
+  - `GET /users/:id`
+  - `GET /jobs`
+  - `GET /jobs/:id`
+  - `GET /companies`
+  - `GET /companies/:id`
+
+- Protect the following routes and make sure they are only accessible by the company with the correct id.
+
+  - `PATCH /companies/:id`
+  - `DELETE /companies/:id`
+
+- Protect the following routes so that only companies can post jobs, and posted jobs can only be edited and deleted by the company that created them.
+
+  - `POST /jobs`
+  - `PATCH /jobs/:id`
+  - `DELETE /jobs/:id`
+
+---
+
+## Part VI - Testing + Validation
+
+**Before you continue, make sure you have completed at least Part I and Part II of this exercise**
+
+- Make sure that there is validation each time a `user` is created or updated.
+- Make sure that there is validation each time a `company` is created or updated.
+- Make sure that there is validation each time a `job` is created or updated.
+- Add tests for your `users`, `companies`, and `jobs` route.
+
+---
+
+# Solutions
 
 To get any of these solutions running locally:
 
