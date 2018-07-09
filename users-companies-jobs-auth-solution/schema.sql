@@ -4,7 +4,7 @@ CREATE DATABASE "users-companies-jobs-auth-solution";
 CREATE TABLE companies (
     id SERIAL PRIMARY KEY,
     handle TEXT UNIQUE NOT NULL,
-    password NOT NULL,
+    password TEXT NOT NULL,
     name TEXT,
     logo TEXT
 );
@@ -18,7 +18,7 @@ CREATE TABLE jobs (
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
-    password NOT NULL,
+    password TEXT NOT NULL,
     first_name TEXT,
     last_name TEXT,
     email TEXT,
