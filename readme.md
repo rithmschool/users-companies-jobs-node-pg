@@ -115,7 +115,7 @@ Create a table for `companies`, each company should have a:
 
 - Add a new route `/users/auth`. This route accepts a POST request with a username and password, and it returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
 
-- Protect the following routes and make sure only a user who has logged in can see them:
+- Protect the following routes and make sure only a user who has logged in can use them:
 
   - `GET /users`
   - `GET /users/:id`
@@ -150,6 +150,9 @@ Create a table for `companies`, each company should have a:
 
   - `PATCH /companies/:id`
   - `DELETE /companies/:id`
+
+- Protect the following routes so that only companies can post jobs, and posted jobs can only be edited and deleted by the company that created them.
+
   - `POST /jobs`
   - `PATCH /jobs/:id`
   - `DELETE /jobs/:id`
