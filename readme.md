@@ -103,6 +103,8 @@ Create a table for `companies`, each company should have a:
   }
   ```
 
+---
+
 ## Part IV - User Authentication + Authorization
 
 **Before you continue, make sure you have completed at least Part I and Part II above**
@@ -146,7 +148,9 @@ Create a table for `companies`, each company should have a:
   - `PATCH /jobs/:id`
   - `DELETE /jobs/:id`
 
-## Part V - Testing + Validation
+---
+
+## Part VI - Testing + Validation
 
 **Before you continue, make sure you have completed at least Part I and Part II of this exercise**
 
@@ -154,6 +158,8 @@ Create a table for `companies`, each company should have a:
 - Make sure that there is validation each time a `company` is created or updated.
 - Make sure that there is validation each time a `job` is created or updated.
 - Add tests for your `users`, `companies`, and `jobs` route.
+
+---
 
 # Solutions
 
