@@ -117,6 +117,8 @@ Create a table for `companies`, each company should have a:
 
 - Protect the following routes and make sure only a user who has logged in can see them:
 
+  - `GET /users`
+  - `GET /users/:id`
   - `GET /jobs`
   - `GET /jobs/:id`
   - `GET /companies`
@@ -124,13 +126,8 @@ Create a table for `companies`, each company should have a:
 
 - Protect the following routes and make sure they are only accessible by the user with the correct id.
 
-  - `GET /users/:id`
   - `PATCH /users/:id`
   - `DELETE /users/:id`
-
-* **BONUS** - Add a column to the `users` table called `is_admin` which is a boolean that defaults to `false`. If the value of `is_admin` is true, the following routes should be accessible:
-
-  - `GET /users` - this should return a list of all the user objects
 
 ## Part V - Company Auth
 
@@ -139,6 +136,15 @@ Create a table for `companies`, each company should have a:
 - Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a company is created and updated, the password is stored securely.
 
 - Add a new route `/companies/auth`. This route accepts a POST request with a company's `handle` and `password`, and it returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
+
+- Allow logged in companies to see the following routes (these are all the routes logged in users can see):
+
+  - `GET /users`
+  - `GET /users/:id`
+  - `GET /jobs`
+  - `GET /jobs/:id`
+  - `GET /companies`
+  - `GET /companies/:id`
 
 - Protect the following routes and make sure they are only accessible by the company with the correct id.
 
