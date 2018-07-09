@@ -103,22 +103,15 @@ Create a table for `companies`, each company should have a:
   }
   ```
 
-## Part IV - Authentication + Authorization
+## Part IV - User Authentication + Authorization
 
-**Before you continue, make sure you have completed at least Part I and Part II of this exercise**
+**Before you continue, make sure you have completed at least Part I and Part II above**
 
 - Add a column in the `users` table called `username`. This column should have a type of `text` and should be unique and never be null.
 
 - Add a column in the `users` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a user is created and updated, the password is stored securely.
 
-- Add a column in the `companies` table called `handle`. This column should have a type of `text` and should be unique and never be null.
-
-- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a company is created and updated, the password is stored securely.
-
-- Make sure your application has the following routes:
-
-  - `POST /users/auth` - this route accepts a username and password and returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
-  - `POST /companies/auth` - this route accepts a username and password and returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
+- Add a new route `/users/auth`. This route accepts a POST request with a username and password, and it returns a JWT if the username exists and the password is correct. The JWT should store the id of the logged in user.
 
 - Protect the following routes and make sure only a user who has logged in can see them:
 
@@ -126,13 +119,24 @@ Create a table for `companies`, each company should have a:
   - `GET /jobs/:id`
   - `GET /companies`
   - `GET /companies/:id`
-  - `POST /companies`
 
 - Protect the following routes and make sure they are only accessible by the user with the correct id.
 
   - `GET /users/:id`
   - `PATCH /users/:id`
   - `DELETE /users/:id`
+
+* **BONUS** - Add a column to the `users` table called `is_admin` which is a boolean that defaults to `false`. If the value of `is_admin` is true, the following routes should be accessible:
+
+  - `GET /users` - this should return a list of all the user objects
+
+## Part V - Company Auth
+
+- Add a column in the `companies` table called `handle`. This column should have a type of `text` and should be unique and never be null.
+
+- Add a column in the `companies` table called `password`. This column should have a type of `text` and should never be null. The column should store a **hashed** password using bcrypt. Make sure that when a company is created and updated, the password is stored securely.
+
+- Add a new route `/companies/auth`. This route accepts a POST request with a company's `handle` and `password`, and it returns a JWT if the handle exists and the password is correct. The JWT should store the id of the logged in company.
 
 - Protect the following routes and make sure they are only accessible by the company with the correct id.
 
@@ -141,10 +145,6 @@ Create a table for `companies`, each company should have a:
   - `POST /jobs`
   - `PATCH /jobs/:id`
   - `DELETE /jobs/:id`
-
-* **BONUS** - Add a column to the `users` table called `is_admin` which is a boolean that defaults to `false`. If the value of `is_admin` is true, the following routes should be accessible:
-
-  - `GET /users` - this should return a list of all the user objects
 
 ## Part V - Testing + Validation
 
@@ -155,7 +155,7 @@ Create a table for `companies`, each company should have a:
 - Make sure that there is validation each time a `job` is created or updated.
 - Add tests for your `users`, `companies`, and `jobs` route.
 
-### Solutions
+# Solutions
 
 To get any of these solutions running locally:
 
