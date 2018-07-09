@@ -23,7 +23,7 @@ CREATE TABLE users (
     last_name TEXT,
     email TEXT,
     photo TEXT,
-    company_id INTEGER REFERENCES companies (id) ON DELETE CASCADE
+    company_id INTEGER REFERENCES companies (id) ON DELETE SET NULL
 );
 CREATE TABLE jobs_users (
     id SERIAL PRIMARY KEY,
