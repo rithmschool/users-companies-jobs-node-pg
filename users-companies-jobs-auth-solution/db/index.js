@@ -1,6 +1,6 @@
-const { Client } = require("pg");
+const { Client } = require('pg');
 const client = new Client({
-  connectionString: "postgresql://localhost/users-companies-jobs-solution"
+  connectionString: 'postgresql://localhost/users-companies-jobs-auth-solution'
 });
 
 client.connect();

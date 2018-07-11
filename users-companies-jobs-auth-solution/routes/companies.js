@@ -1,78 +1,98 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../db');
+const { getIdFromToken, authRequired } = require('../middleware/auth');
+const { SECRET } = require('../config');
 const bcrypt = require('bcrypt');
-const { ensureCorrectCompany, authRequired } = require('../middleware/auth');
+const db = require('../db');
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const router = express.Router();
 
-router.post('/auth', async function(req, res, next) {
+router.post('/auth', async (req, res, next) => {
   try {
-    // try to find the company first
-    const foundCompany = await db.query(
-      'SELECT * FROM users WHERE handle=$1 LIMIT 1',
+    const { handle, password } = req.body;
+    // try to find the user first
+    const result = await db.query(
+      'SELECT * FROM companies WHERE handle=$1 LIMIT 1',
       [req.body.handle]
     );
-    if (foundCompany.rows.length === 0) {
-      return res.json({ message: 'Invalid Handle' });
+    const foundCompany = result.rows[0];
+    if (!foundCompany) {
+      const companyNotFound = new Error(`Company '${handle}' does not exist.`);
+      companyNotFound.status = 404;
+      return next(companyNotFound);
     }
-    // if the company exists, let's compare their hashed password to a new hash from req.body.password
+    // if the user exists, let's compare their hashed password to a new hash from req.body.password
     const hashedPassword = await bcrypt.compare(
-      req.body.password,
-      foundCompany.rows[0].password
+      password,
+      foundCompany.password
     );
     // bcrypt.compare returns a boolean to us, if it is false the passwords did not match!
     if (hashedPassword === false) {
-      return res.json({ message: 'Invalid Password' });
+      const invalidPass = new Error('Invalid Password');
+      invalidPass.status = 401;
+      return next(invalidPass);
     }
-    return res.json({ message: 'Logged In!' });
+    const token = jwt.sign({ company_id: foundCompany.id }, SECRET);
+    return res.json({ token });
   } catch (e) {
-    return res.json(e);
+    return next(e);
   }
 });
 
-router.get('/', authRequired, async function(req, res, next) {
+router.get('/', authRequired, async (req, res, next) => {
   try {
-    const companies = await db.query('SELECT * FROM companies');
-    return res.json(companies.rows);
+    const result = await db.query('SELECT * FROM companies');
+    const companies = result.rows;
+    return res.json(companies);
   } catch (err) {
     return next(err);
   }
 });
 
-router.get('/:id', authRequired, async function(req, res, next) {
+router.get('/:id', authRequired, async (req, res, next) => {
   try {
-    const result = await db.query('SELECT * FROM companies WHERE id=$1', [
+    const companyQuery = await db.query('SELECT * FROM companies WHERE id=$1', [
       req.params.id
     ]);
-    const company = result.rows[0];
-    const users = await db.query('SELECT * FROM users WHERE company_id=$1', [
-      req.params.id
-    ]);
-    const jobs = await db.query('SELECT * FROM jobs WHERE company_id=$1', [
-      req.params.id
-    ]);
-    company.users = users.rows;
-    company.jobs = jobs.rows;
+    const company = companyQuery.rows[0];
+    const usersQuery = await db.query(
+      'SELECT id FROM users WHERE company_id=$1',
+      [req.params.id]
+    );
+    const jobsQuery = await db.query(
+      'SELECT id FROM jobs WHERE company_id=$1',
+      [req.params.id]
+    );
+    company.users = usersQuery.rows.map(u => u.id);
+    company.jobs = jobsQuery.rows.map(j => j.id);
     return res.json(company);
   } catch (err) {
     return next(err);
   }
 });
 
-router.post('/', async function(req, res, next) {
+router.post('/', async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const result = await db.query(
-      'INSERT INTO companies (handle, password, name,logo) VALUES ($1,$2, $3, $4) RETURNING *',
+      'INSERT INTO companies (handle, password, name, logo) VALUES ($1, $2, $3, $4) RETURNING *',
       [req.body.handle, hashedPassword, req.body.name, req.body.logo]
     );
-    return res.json(result.rows[0]);
+    const newCompany = result.rows[0];
+    return res.json(newCompany);
   } catch (err) {
     return next(err);
   }
 });
 
-router.patch('/:id', ensureCorrectCompany, async function(req, res, next) {
+router.patch('/:id', getIdFromToken, async (req, res, next) => {
   try {
+    if (req.params.id !== req.company_id) {
+      const unauthorized = new Error(
+        'You are not allowed to edit this company.'
+      );
+      unauthorized.status = 403;
+      return next(unauthorized);
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const result = await db.query(
       'UPDATE companies SET name=($1), logo=($2), handle=($3), password=($4)  WHERE id=($5) RETURNING *',
@@ -84,18 +104,26 @@ router.patch('/:id', ensureCorrectCompany, async function(req, res, next) {
         req.params.id
       ]
     );
-    return res.json(result.rows[0]);
+    const updatedCompany = result.rows[0];
+    return res.json(updatedCompany);
   } catch (err) {
     return next(err);
   }
 });
 
-router.delete('/:id', ensureCorrectCompany, async function(req, res, next) {
+router.delete('/:id', getIdFromToken, async (req, res, next) => {
   try {
-    const result = await db.query('DELETE FROM companies WHERE id=$1', [
+    if (req.params.id !== req.company_id) {
+      const unauthorized = new Error(
+        'You are not allowed to delete this company.'
+      );
+      unauthorized.status = 403;
+      return next(unauthorized);
+    }
+    const deletedCompany = await db.query('DELETE FROM companies WHERE id=$1', [
       req.params.id
     ]);
-    return res.json({ message: 'Deleted' });
+    return res.json(deletedCompany);
   } catch (err) {
     return next(err);
   }

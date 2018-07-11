@@ -1,34 +1,35 @@
-require("dotenv").config();
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const usersRoutes = require("./routes/users");
-const companiesRoutes = require("./routes/companies");
-const jobsRoutes = require("./routes/jobs");
-const morgan = require("morgan");
+const bodyParser = require('body-parser');
+const usersRoutes = require('./routes/users');
+const companiesRoutes = require('./routes/companies');
+const jobsRoutes = require('./routes/jobs');
+const morgan = require('morgan');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(morgan("tiny"));
-app.use("/companies", companiesRoutes);
-app.use("/jobs", jobsRoutes);
-app.use("/users", usersRoutes);
+app.use(morgan('tiny'));
 
-app.use(function(req, res, next) {
-  let err = new Error("Not Found");
+app.use('/companies', companiesRoutes);
+app.use('/jobs', jobsRoutes);
+app.use('/users', usersRoutes);
+
+app.use((req, res, next) => {
+  let err = new Error('Not Found');
   err.status = 404;
   return next(err);
 });
 
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.send({
+// global error handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
     error: {
-      message: err.message || "Internal Server Error"
+      message: err.message || 'Internal Server Error'
     }
   });
 });
 
-app.listen(3000, function() {
-  console.log("Server starting on port 3000!");
+app.listen(3000, () => {
+  console.log('Server starting on port 3000!');
 });

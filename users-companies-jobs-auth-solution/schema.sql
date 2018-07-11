@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS  "users-companies-jobs-auth-solution";
 CREATE DATABASE "users-companies-jobs-auth-solution";
+
 \c "users-companies-jobs-auth-solution"
+
 CREATE TABLE companies (
     id SERIAL PRIMARY KEY,
     handle TEXT UNIQUE NOT NULL,
@@ -8,13 +10,15 @@ CREATE TABLE companies (
     name TEXT,
     logo TEXT
 );
+
 CREATE TABLE jobs (
     id SERIAL PRIMARY KEY,
     title TEXT,
     salary TEXT,
     equity FLOAT,
-    company_id INTEGER REFERENCES companies(id) ON DELETE CASCADE
+    company_id INTEGER NOT NULL REFERENCES companies(id) ON DELETE CASCADE
 );
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
@@ -25,9 +29,11 @@ CREATE TABLE users (
     photo TEXT,
     company_id INTEGER REFERENCES companies (id) ON DELETE SET NULL
 );
+
 CREATE TABLE jobs_users (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    job_ib INTEGER REFERENCES companies (id) ON DELETE CASCADE
+    user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    job_id INTEGER NOT NULL REFERENCES companies (id) ON DELETE CASCADE
 );
+
 \q

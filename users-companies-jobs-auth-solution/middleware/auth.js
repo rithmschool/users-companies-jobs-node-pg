@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET = process.env.SECRET_KEY;
+const { SECRET } = require('../config');
 
 exports.authRequired = (req, res, next) => {
   try {
@@ -7,34 +7,27 @@ exports.authRequired = (req, res, next) => {
     jwt.verify(authHeaderValue, SECRET);
     return next();
   } catch (e) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    console.log(e);
+    const unauthorized = new Error('You must authenticate first.');
+    unauthorized.status = 401;
+    return next(unauthorized);
   }
 };
 
-exports.ensureCorrectUser = (req, res, next) => {
+exports.getIdFromToken = (req, res, next) => {
   try {
     const authHeaderValue = req.headers.authorization;
     const token = jwt.verify(authHeaderValue, SECRET);
-    if (token.username === req.params.username) {
-      return next();
-    } else {
-      return res.status(401).json({ message: 'Unauthorized' });
+    if (token.user_id) {
+      req.user_id = token.user_id;
+    } else if (token.company_id) {
+      req.company_id = token.company_id;
     }
+    return next();
   } catch (e) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-};
-
-exports.ensureCorrectCompany = (req, res, next) => {
-  try {
-    const authHeaderValue = req.headers.authorization;
-    const token = jwt.verify(authHeaderValue, SECRET);
-    if (token.handle === req.params.handle) {
-      return next();
-    } else {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  } catch (e) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    console.log(e);
+    const unauthorized = new Error('You must authenticate first.');
+    unauthorized.status = 401;
+    return next(unauthorized);
   }
 };
