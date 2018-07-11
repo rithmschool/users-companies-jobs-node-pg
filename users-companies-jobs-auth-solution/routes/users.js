@@ -118,7 +118,7 @@ router.patch('/:id', getIdFromToken, async (req, res, next) => {
 
 router.delete('/:id', getIdFromToken, async function(req, res, next) {
   try {
-    if (req.params.id !== req.user_id) {
+    if (req.params.id != req.user_id) {
       const unauthorized = new Error('You are not allowed to edit this user.');
       unauthorized.status = 403;
       return next(unauthorized);
